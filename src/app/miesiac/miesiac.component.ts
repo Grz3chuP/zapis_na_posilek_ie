@@ -101,7 +101,7 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
     this.dane = undefined;
     this.daneDaty = undefined;
     this.pracownik = undefined;
-    this.wyczyscDaneLogowania();
+    this.wyczysczCalkowiteDaneLogowania();
   }
   scroll(offset: number) {
     window.scrollBy({
