@@ -38,8 +38,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/zapis-na-posilek-ie",
-            "index": "src/index.html",
+            "outputPath": {
+              "base": "C:\\xampp\\htdocs\\mcp3el54\\public\\apps\\zapis_na_posilek_ie",
+              "browser": ""
+            },
+            "index": "src/zapis_na_posilek_app.blade.php",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"

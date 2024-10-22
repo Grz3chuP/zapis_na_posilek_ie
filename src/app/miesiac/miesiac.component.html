@@ -1,0 +1,57 @@
+<div class="posilkiWrapper container d-flex flex-column align-items-center">
+  @if (statusLogowania === 0) {
+<div class="zalogujBaner m-2">ZALOGUJ UŻYTKOWNIKA</div>
+
+  <div class=" m-2">Podaj</div>
+  <div ><b class="numerKadrowy"> NUMER KADROWY</b> </div>
+  <div class="panelLogowaniaWrapper">
+    <div class="panelTitle"></div>
+    <div class="panelInputs d-flex justify-content-center">
+
+      <input type="password" class="form-control my-2 w-50" [(ngModel)]="daneLogowania!.id">
+    </div>
+    <div class="panelPrzyciskowWrapper d-flex justify-content-center">
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(7)">7</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(8)">8</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(9)">9</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(4)">4</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(5)">5</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(6)">6</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(1)">1</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(2)">2</div>
+      <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(3)">3</div>
+      <div class="czysc d-flex justify-content-center align-items-center" (click)="wyczyscDaneLogowania()">Czyść</div>
+      <div class="przyciski d-flex justify-content-center align-items-center">0</div>
+      <button [disabled]="!daneLogowania!.id" class="dalej d-flex justify-content-center align-items-center" (click)="wprowadzID()">Dalej</button>
+{{daneLogowania?.id}}
+    </div>
+  </div>
+  } @else if (statusLogowania === 1) {
+    <div class="zalogujBaner m-2">ZALOGUJ UŻYTKOWNIKA</div>
+    <div class=" m-2">Podaj</div>
+    <div ><b class="numerKadrowy"> NUMER KARTY Wejścia/Wyjścia</b> </div>
+    <div class="panelLogowaniaWrapper">
+      <div class="panelTitle"></div>
+      <div class="panelInputs d-flex justify-content-center">
+
+        <input type="password" class="form-control my-2 w-50" [(ngModel)]="daneLogowania!.nr">
+      </div>
+      <div class="panelPrzyciskowWrapper d-flex justify-content-center">
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(7)">7</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(8)">8</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(9)">9</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(4)">4</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(5)">5</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(6)">6</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(1)">1</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(2)">2</div>
+        <div class="przyciski d-flex justify-content-center align-items-center" (click)="dodawanieLiczbyDoDanychLogowania(3)">3</div>
+        <div class="czysc d-flex justify-content-center align-items-center" (click)="wyczyscDaneLogowania()">Czyść</div>
+        <div class="przyciski d-flex justify-content-center align-items-center">0</div>
+        <button [disabled]="!daneLogowania!.nr" class="dalej d-flex justify-content-center align-items-center" (click)="wprowadzID()">Dalej</button>
+      </div>
+    </div>
+  }
+ numer {{daneLogowania!.nr}} <br>
+ id {{daneLogowania!.id}}
+</div>
