@@ -61,7 +61,7 @@
 }
 button {
   border: none;
-  background-color: inherit;
+
 }
 .numerKadrowy {
   background-color: #ffffff;
@@ -81,4 +81,53 @@ button {
 }
 .zalogujBaner {
  font-size: 1.7rem;
+}
+table {
+ background-color: whitesmoke;
+  box-shadow: #aeadad 6px 5px 5px;
+}
+table tr td {
+  border: black 1px solid;
+  padding: 2px;
+  text-align: center;
+ }
+
+table tr th {
+  border: black 1px solid;
+  padding: 2px;
+  text-align: center;
+}
+.tenMiesiac {
+  text-align: center;
+  color: #9370DB;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: #aeadad 1px 1px 2px;
+}
+.kolorDania {
+ background-color: #e1fae8;
+}
+.miesiaceWrapper {
+  animation: pojawianieSie 0.8s;
+}
+.suwakiWrapper {
+  top: 0;
+  right: 0;
+
+
+}
+.przewijaki {
+  width: 80px;
+  height: fit-content;
+  font-size: 6rem;
+  margin: 5px;
+  background-color: darkgoldenrod;
+  border-radius: 10px;
+  box-shadow: gray 2px 2px 2px;
+  color: #392822;
+  transition: 0.3s;
+  opacity: 0.9;
+}
+.przezroczyste {
+  opacity: 0.5;
 }

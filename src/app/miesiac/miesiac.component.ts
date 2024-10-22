@@ -3,12 +3,17 @@ import {IDaneLogowania} from '../interfaces/IDaneLogowania';
 import {FormsModule} from '@angular/forms';
 import {loading} from '../services/loading';
 import {SerwisService} from '../services/serwis.service';
+import {IDane} from '../interfaces/IDane';
+import {IDaneDaty} from '../interfaces/IDaneDaty';
+import {IPracownik} from '../interfaces/IPracownik';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-miesiac',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgClass
   ],
   templateUrl: './miesiac.component.html',
   styleUrl: './miesiac.component.css'
@@ -18,6 +23,9 @@ export class MiesiacComponent {
 
   statusLogowania = 0;
   daneLogowania: IDaneLogowania | undefined;
+  dane: IDane | undefined;
+  daneDaty: IDaneDaty | undefined;
+  pracownik: IPracownik | undefined;
   constructor() {
  this.daneLogowania = {
     id: '',
@@ -62,17 +70,55 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
       .subscribe({
         next:(dane: any) => {
           loading.set(false);
-          console.log(dane);
+          this.dane = dane.dane;
+          this.daneDaty = dane.dane_daty;
+          this.pracownik = dane.pracownik;
           this.statusLogowania = 2;
         },
         error: (dane: any) => {
           loading.set(false);
           this.wyczysczCalkowiteDaneLogowania();
           this.serwis.errorhandler(dane);
-
-
         }
       })
   }
+  getDayOfWeek(dateString: string): string {
+    const daysOfWeek = ['Nie', 'Pon', 'Wto', 'Śro', 'Czw', 'Pią', 'Sob'];
 
+    const date = new Date(dateString);
+    const dayIndex = date.getDay();  // Zwraca liczbę od 0 (Niedziela) do 6 (Sobota)
+
+    return daysOfWeek[dayIndex];
+  }
+  getMonthName(numerDaty: string): string {
+    const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+    return months[parseInt(numerDaty) - 1];
+
+  }
+
+  wyloguj() {
+    this.statusLogowania = 0;
+    this.dane = undefined;
+    this.daneDaty = undefined;
+    this.pracownik = undefined;
+    this.wyczyscDaneLogowania();
+  }
+  scroll(offset: number) {
+    window.scrollBy({
+      top: offset, // Ustawienie wartości offsetu w pikselach
+      behavior: 'smooth' // Płynne przewijanie
+    });
+  }
+
+  reverseDateFormat(dateString: string): string {
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+  }
+  isDateExpired(dateString: string): boolean {
+    const today = new Date(); // Dzisiejsza data
+    const dateToCompare = new Date(dateString); // Konwersja stringa na obiekt Date
+    dateToCompare.setDate(dateToCompare.getDate() - 1);
+    // Porównanie dat - data musi być starsza lub równa dzisiejszej, by przycisk był aktywny
+    return dateToCompare < today;
+  }
 }

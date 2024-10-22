@@ -23,7 +23,6 @@
       <div class="czysc d-flex justify-content-center align-items-center" (click)="wyczyscDaneLogowania()">Czyść</div>
       <div class="przyciski d-flex justify-content-center align-items-center">0</div>
       <button [disabled]="!daneLogowania!.id" class="dalej d-flex justify-content-center align-items-center" (click)="wprowadzID()">Dalej</button>
-{{daneLogowania?.id}}
     </div>
   </div>
   } @else if (statusLogowania === 1) {
@@ -51,7 +50,90 @@
         <button [disabled]="!daneLogowania!.nr" class="dalej d-flex justify-content-center align-items-center" (click)="wprowadzID()">Dalej</button>
       </div>
     </div>
+  } @else if (statusLogowania === 2) {
+    <div class="d-flex gap-3">
+      <div class="zalogujBaner">{{pracownik!.nazwisko}}</div>
+      <button style="width: fit-content; height: fit-content" class="czysc" (click)="wyloguj()">Wyloguj</button>
+    </div>
+    <div class="miesiaceWrapper d-flex gap-5 flex-column flex-sm-row">
+      <div class="obecnyMiesiac">
+        <div class="tenMiesiac">{{getMonthName(daneDaty!.ten_miesiac)}}</div>
+        <table>
+          <thead>
+          <tr>
+            <th >lp</th>
+            <th>Data</th>
+            <th>Dzień</th>
+            <th >Opis</th>
+          </thead>
+          <tbody>
+            @for (dzien of dane!.menuObecnyMiesiac; track $index) {
+            <tr>
+              <td>{{$index + 1}}.</td>
+              <td>{{reverseDateFormat(dzien.data)}}</td>
+              <td>{{getDayOfWeek(dzien.data)}}</td>
+              <td class="kolorDania" [ngClass]="{'przezroczyste': isDateExpired(dzien.data)}">{{dzien.opis}}</td>
+            </tr>
+          <tr>
+            <td colspan="4">
+              <div class="d-flex justify-content-between p-1">
+                <div class="d-flex gap-1 ">
+                  <button [disabled]="isDateExpired(dzien.data)" class="btn-info btn">Zmiana 1</button>
+                  <button [disabled]="isDateExpired(dzien.data)" class="btn-info btn">Zmiana 2</button>
+                  <button [disabled]="isDateExpired(dzien.data)" class="btn-info btn">Zmiana 3</button>
+                </div>
+
+                <button [disabled]="isDateExpired(dzien.data)" class="btn-danger btn mx-2">Nie korzystam</button>
+              </div>
+            </td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+      <div class="nastepnyMiesiac">
+        <div class="tenMiesiac">{{getMonthName(daneDaty!.nastepny_miesiac) }}</div>
+        <table>
+          <thead>
+          <tr>
+            <th >lp</th>
+            <th>Data</th>
+            <th>Dzień</th>
+            <th class="">Opis</th>
+          </thead>
+          <tbody>
+            @for (dzien of dane!.menuNastepnyMiesiac; track $index) {
+              <tr>
+                <td>{{$index + 1}}.</td>
+                <td>{{reverseDateFormat(dzien.data)}}</td>
+                <td>{{getDayOfWeek(dzien.data)}}</td>
+                <td class="kolorDania">{{dzien.opis}}</td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <div class="d-flex justify-content-between p-1">
+                    <div class="d-flex gap-1 ">
+                      <button class="btn-info btn">Zmiana 1</button>
+                      <button class="btn-info btn">Zmiana 2</button>
+                      <button class="btn-info btn">Zmiana 3</button>
+                    </div>
+
+                    <button class="btn-danger btn mx-2">Nie korzystam</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
   }
- numer {{daneLogowania!.nr}} <br>
- id {{daneLogowania!.id}}
+  @if (statusLogowania === 2) {
+  <div class="suwakiWrapper position-fixed">
+    <button class="przewijaki" (click)="scroll(-300)" >↑</button>
+    <button class="przewijaki" (click)="scroll(300)">↓</button>
+  </div>
+  }
 </div>
