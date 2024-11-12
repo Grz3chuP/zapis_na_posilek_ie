@@ -134,6 +134,7 @@ table tr th {
 }
 .zielony {
   background-color: #7eca4a;
+  border: 1px solid #1b4300;
 }
 .zamknietyButton {
   background-color: gray;

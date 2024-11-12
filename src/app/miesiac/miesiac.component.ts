@@ -45,7 +45,6 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
 
   wprowadzID() {
    if(this.statusLogowania === 1) {
-     console.log('wprowadzono za duzo danych');
    this.wczytajDaneUzytkowniak();
    } else {
      this.statusLogowania += 1;
@@ -176,7 +175,6 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
 
   nieKorzystamZPosilku(zapisPracownika: IZapisPracownika | null, dzien: number, index: number, nextMonth: boolean) {
     loading.set(true);
-    console.log(zapisPracownika);
     if(!zapisPracownika) {
       let pustyZapisPracownika = {
         czy_potwierdzony_dzien: 1,
@@ -218,7 +216,6 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
           }
         });
     }
-    console.log(zapisPracownika);
   }
   potwierdzenieZapisuNaZmiane() {
 
