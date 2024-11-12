@@ -3,7 +3,7 @@ import {IDaneLogowania} from '../interfaces/IDaneLogowania';
 import {FormsModule} from '@angular/forms';
 import {loading} from '../services/loading';
 import {SerwisService} from '../services/serwis.service';
-import {IDane} from '../interfaces/IDane';
+import {IDane, IZapisPracownika} from '../interfaces/IDane';
 import {IDaneDaty} from '../interfaces/IDaneDaty';
 import {IPracownik} from '../interfaces/IPracownik';
 import {NgClass} from '@angular/common';
@@ -46,7 +46,7 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
   wprowadzID() {
    if(this.statusLogowania === 1) {
      console.log('wprowadzono za duzo danych');
-   this.wczytajDaneUrzytkowniak();
+   this.wczytajDaneUzytkowniak();
    } else {
      this.statusLogowania += 1;
    }
@@ -64,21 +64,24 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
     this.daneLogowania!.nr = '';
     this.statusLogowania = 0;
   }
-  wczytajDaneUrzytkowniak() {
+  wczytajDaneUzytkowniak() {
     loading.set(true);
-    this.serwis.zapytaj_o('numer_karty', this.daneLogowania)
+    this.serwis.zapytaj_full_response('numer_karty', this.daneLogowania)
       .subscribe({
-        next:(dane: any) => {
-          loading.set(false);
-          this.dane = dane.dane;
-          this.daneDaty = dane.dane_daty;
-          this.pracownik = dane.pracownik;
+        next:(d: any) => {
+
+          this.serwis.token = d.headers.get("Authorization");
+          this.dane = d.body.dane;
+          this.daneDaty = d.body.dane_daty;
+          this.pracownik = d.body.pracownik;
           this.statusLogowania = 2;
+          loading.set(false);
         },
         error: (dane: any) => {
-          loading.set(false);
+
           this.wyczysczCalkowiteDaneLogowania();
           this.serwis.errorhandler(dane);
+          loading.set(false);
         }
       })
   }
@@ -120,5 +123,104 @@ dodawanieLiczbyDoDanychLogowania(liczba: number) {
     dateToCompare.setDate(dateToCompare.getDate() - 1);
     // Porównanie dat - data musi być starsza lub równa dzisiejszej, by przycisk był aktywny
     return dateToCompare < today;
+  }
+
+  wybierzZmianeAbyZatwierdzicPosilek(zapisPracownika: IZapisPracownika | null, dzien: number, zmiana: number, index: number, nextMonth: boolean) {
+
+    if(!zapisPracownika) {
+    loading.set(true);
+    let pustyZapisPracownika = {
+      czy_potwierdzony_dzien: 1,
+      id: null,
+      rodzaj_wycofania: null,
+      zmiana: zmiana
+    }
+    this.serwis.zapisz_securly('zmiana', {dzien_id: dzien, id: this.pracownik!.id, nr: this.pracownik!.nr_karty, zapisPracownika: pustyZapisPracownika})
+      .subscribe({
+        next: (dane: any) => {
+          loading.set(false);
+          if(!nextMonth) {
+            this.dane!.menuObecnyMiesiac[index].zapisPracownika = dane.dzien;
+          } else {
+            this.dane!.menuNastepnyMiesiac[index].zapisPracownika = dane.dzien;
+          }
+        },
+        error: (dane: any) => {
+          loading.set(false);
+          this.serwis.errorhandler(dane);
+        }
+      });
+
+    } else if(zapisPracownika) {
+      zapisPracownika.zmiana = zmiana;
+     loading.set(true);
+      this.serwis.zapisz_securly('zmiana', {dzien_id: dzien, id: this.pracownik!.id, nr: this.pracownik!.nr_karty, zapisPracownika: zapisPracownika})
+        .subscribe({
+          next: (dane: any) => {
+            loading.set(false);
+            if(!nextMonth) {
+              this.dane!.menuObecnyMiesiac[index].zapisPracownika = dane.dzien;
+            } else {
+              this.dane!.menuNastepnyMiesiac[index].zapisPracownika = dane.dzien;
+            }
+          },
+          error: (dane: any) => {
+            loading.set(false);
+            this.serwis.errorhandler(dane);
+          }
+        });
+
+    }
+
+  }
+
+  nieKorzystamZPosilku(zapisPracownika: IZapisPracownika | null, dzien: number, index: number, nextMonth: boolean) {
+    loading.set(true);
+    console.log(zapisPracownika);
+    if(!zapisPracownika) {
+      let pustyZapisPracownika = {
+        czy_potwierdzony_dzien: 1,
+        id: null,
+        rodzaj_wycofania: "I",
+        zmiana: null
+      }
+      this.serwis.zapisz_securly('nieobecnosc', {dzien_id: dzien, id: this.pracownik!.id, nr: this.pracownik!.nr_karty, zapisPracownika: pustyZapisPracownika})
+        .subscribe({
+          next: (dane: any) => {
+            loading.set(false);
+            if(!nextMonth) {
+              this.dane!.menuObecnyMiesiac[index].zapisPracownika = dane.dzien;
+            } else {
+              this.dane!.menuNastepnyMiesiac[index].zapisPracownika = dane.dzien;
+            }
+          },
+          error: (dane: any) => {
+            loading.set(false);
+            this.serwis.errorhandler(dane);
+          }
+        });
+    } else if(zapisPracownika) {
+      zapisPracownika.rodzaj_wycofania = "I";
+      this.serwis.zapisz_securly('nieobecnosc', {dzien_id: dzien, id: this.pracownik!.id, nr: this.pracownik!.nr_karty, zapisPracownika: zapisPracownika})
+        .subscribe({
+          next: (dane: any) => {
+            loading.set(false);
+            zapisPracownika = dane.dzien;
+            if(!nextMonth) {
+              this.dane!.menuObecnyMiesiac[index].zapisPracownika = dane.dzien;
+            } else {
+              this.dane!.menuNastepnyMiesiac[index].zapisPracownika = dane.dzien;
+            }
+          },
+          error: (dane: any) => {
+            loading.set(false);
+            this.serwis.errorhandler(dane);
+          }
+        });
+    }
+    console.log(zapisPracownika);
+  }
+  potwierdzenieZapisuNaZmiane() {
+
   }
 }

@@ -78,12 +78,12 @@
             <td colspan="4">
               <div class="d-flex justify-content-between p-1">
                 <div class="d-flex gap-1 ">
-                  <button [disabled]="isDateExpired(dzien.data)" class="btn-info btn">Zmiana 1</button>
-                  <button [disabled]="isDateExpired(dzien.data)" class="btn-info btn">Zmiana 2</button>
-                  <button [disabled]="isDateExpired(dzien.data)" class="btn-info btn">Zmiana 3</button>
+                  <button [disabled]="isDateExpired(dzien.data ) || dzien.zapisPracownika?.zmiana === 1" [ngClass]="{zielony: dzien.zapisPracownika?.zmiana === 1, zamknietyButton: dzien.zapisPracownika?.rodzaj_wycofania === 'I'}" class="btn-info btn" (click)="wybierzZmianeAbyZatwierdzicPosilek(dzien.zapisPracownika, dzien.id, 1, $index, false)">Zmiana 1</button>
+                  <button [disabled]="isDateExpired(dzien.data) || dzien.zapisPracownika?.zmiana === 2" [ngClass]="{zielony: dzien.zapisPracownika?.zmiana === 2, zamknietyButton: dzien.zapisPracownika?.rodzaj_wycofania === 'I'}" class="btn-info btn" (click)="wybierzZmianeAbyZatwierdzicPosilek(dzien.zapisPracownika, dzien.id, 2, $index, false)">Zmiana 2</button>
+                  <button [disabled]="isDateExpired(dzien.data) || dzien.zapisPracownika?.zmiana === 3" [ngClass]="{zielony: dzien.zapisPracownika?.zmiana === 3, zamknietyButton: dzien.zapisPracownika?.rodzaj_wycofania === 'I'}" class="btn-info btn" (click)="wybierzZmianeAbyZatwierdzicPosilek(dzien.zapisPracownika, dzien.id, 3, $index, false)">Zmiana 3</button>
                 </div>
 
-                <button [disabled]="isDateExpired(dzien.data)" class="btn-danger btn mx-2">Nie korzystam</button>
+                <button [disabled]="isDateExpired(dzien.data) || dzien.zapisPracownika?.rodzaj_wycofania ==='I'" class="btn-danger btn mx-2" (click)="nieKorzystamZPosilku(dzien.zapisPracownika, dzien.id, $index, false)">Nie korzystam</button>
               </div>
             </td>
           </tr>
@@ -113,12 +113,12 @@
                 <td colspan="4">
                   <div class="d-flex justify-content-between p-1">
                     <div class="d-flex gap-1 ">
-                      <button class="btn-info btn">Zmiana 1</button>
-                      <button class="btn-info btn">Zmiana 2</button>
-                      <button class="btn-info btn">Zmiana 3</button>
+                      <button [disabled]="isDateExpired(dzien.data ) || dzien.zapisPracownika?.zmiana === 1" [ngClass]="{zielony: dzien.zapisPracownika?.zmiana === 1, zamknietyButton: dzien.zapisPracownika?.rodzaj_wycofania === 'I'}" class="btn-info btn" (click)="wybierzZmianeAbyZatwierdzicPosilek(dzien.zapisPracownika, dzien.id, 1, $index, true)">Zmiana 1</button>
+                      <button [disabled]="isDateExpired(dzien.data) || dzien.zapisPracownika?.zmiana === 2" [ngClass]="{zielony: dzien.zapisPracownika?.zmiana === 2, zamknietyButton: dzien.zapisPracownika?.rodzaj_wycofania === 'I'}" class="btn-info btn" (click)="wybierzZmianeAbyZatwierdzicPosilek(dzien.zapisPracownika, dzien.id, 2, $index, true)">Zmiana 2</button>
+                      <button [disabled]="isDateExpired(dzien.data) || dzien.zapisPracownika?.zmiana === 3" [ngClass]="{zielony: dzien.zapisPracownika?.zmiana === 3, zamknietyButton: dzien.zapisPracownika?.rodzaj_wycofania === 'I'}" class="btn-info btn" (click)="wybierzZmianeAbyZatwierdzicPosilek(dzien.zapisPracownika, dzien.id, 3, $index, true)">Zmiana 3</button>
                     </div>
 
-                    <button class="btn-danger btn mx-2">Nie korzystam</button>
+                    <button [disabled]="isDateExpired(dzien.data)" class="btn-danger btn mx-2" (click)="nieKorzystamZPosilku(dzien.zapisPracownika, dzien.id, $index, true)">Nie korzystam</button>
                   </div>
                 </td>
               </tr>

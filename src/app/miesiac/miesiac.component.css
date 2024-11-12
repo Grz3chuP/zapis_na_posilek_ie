@@ -123,7 +123,7 @@ table tr th {
   font-size: 6rem;
   margin: 5px;
   background-color: darkgoldenrod;
-  border-radius: 25px;
+  border-radius: 10px;
   box-shadow: gray 3px 3px 4px;
   color: #392822;
   transition: 0.3s;
@@ -131,4 +131,11 @@ table tr th {
 }
 .przezroczyste {
   opacity: 0.5;
+}
+.zielony {
+  background-color: #7eca4a;
+}
+.zamknietyButton {
+  background-color: gray;
+  opacity: 0.8;
 }

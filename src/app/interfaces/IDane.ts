@@ -15,5 +15,21 @@ export interface IDaneMiesiaca {
   opis: string; //    "Zupa pomidorowa, kotlet mielony, ziemniaki, surówka."
   rok: number; //  2024
   updated_at: string; //    "2024-10-21 12:54:57"
+  zapisPracownika: IZapisPracownika | null;
   zapisal_id: number; //    1
+}
+
+export interface IZapisPracownika {
+  created_at: string;
+  czy_potwierdzony_dzien: number | null;
+  data_potwierdzenia_dnia: string;
+  data_wycofania: string | null;
+  dni_menu_id: number;
+  id: number | null;
+  osoba_edytujaca: number;
+  rodzaj_wycofania: string | null;
+  stolowka_miesiace_id: number;
+  updated_at: string;
+  uwaga_wycofania: string | null;
+  zmiana: number | null;
 }
